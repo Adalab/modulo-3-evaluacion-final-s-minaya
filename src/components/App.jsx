@@ -202,27 +202,33 @@ function App() {
 
         {/* LISTADO */}
         <section className="character-list">
-          <ul className="character-list__grid">
-            {filteredCharacters.map((eachCharacter) => (
-              <li key={eachCharacter.id} className="card">
-                {eachCharacter.image ? (
-                  <img
-                    className="card__img"
-                    src={eachCharacter.image}
-                    alt={"Foto de " + eachCharacter.name}
-                  />
-                ) : (
-                  <span className="card__img card__img--noimg">
-                    El ministerio no envió la foto a tiempo.
-                  </span>
-                )}
+          {filteredCharacters.length === 0 ? (
+            <p className="no-results">
+              Este personaje aún no ha salido de la cámara de los secretos...
+            </p>
+          ) : (
+            <ul className="character-list__grid">
+              {filteredCharacters.map((eachCharacter) => (
+                <li key={eachCharacter.id} className="card">
+                  {eachCharacter.image ? (
+                    <img
+                      className="card__img"
+                      src={eachCharacter.image}
+                      alt={"Foto de " + eachCharacter.name}
+                    />
+                  ) : (
+                    <span className="card__img card__img--noimg">
+                      El ministerio no envió la foto a tiempo.
+                    </span>
+                  )}
 
-                <h2 className="card__name">{eachCharacter.name}</h2>
-                <p className="card__species">{eachCharacter.specie} </p>
-                <p className="card__actor">{eachCharacter.actor}</p>
-              </li>
-            ))}
-          </ul>
+                  <h2 className="card__name">{eachCharacter.name}</h2>
+                  <p className="card__species">{eachCharacter.specie} </p>
+                  <p className="card__actor">{eachCharacter.actor}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       </main>
     </div>

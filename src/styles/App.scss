@@ -189,3 +189,16 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.no-results {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  text-align: center;
+  background: rgba(40, 40, 40, 0.4);
+  border: 1px dashed #8a8a8a;
+  border-radius: 0.5rem;
+  color: #e5e5e5;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+}
