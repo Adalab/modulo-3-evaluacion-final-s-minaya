@@ -1,10 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/App.scss";
-import initialData from "../components/gryffindor.json"
 
 function App() {
-  const [allCharacters, setAllCharacters] = useState(initialData);
-  console.log(initialData);
+
+  // DATOS DE LA APP:
+
+  //Personajes
+  const [characters, setCharacters] = useState([]);
+
+
+
+// Código que se lanza cuando carga la página:
+useEffect(() => {
+
+fetch('https://hp-api.onrender.com/api/characters')
+.then((res)=>res.json())
+.then ((responseData) => {
+  const allCleanCharacters = responseData.map((eachCharacter) =>({
+    id: eachCharacter.id,
+    name: eachCharacter.name,
+    wizard: eachCharacter.wizard,
+    gender: eachCharacter.gender,
+    house: eachCharacter.house,
+    image: eachCharacter.image,
+    state: eachCharacter.alive,
+    specie: eachCharacter.species,
+    actor: eachCharacter.actor
+  }));
+
+  setCharacters(allCleanCharacters)
+  
+  
+});
+},[]);
+
+  if(characters.length === 0){
+    return "No hay personajes para mostrar."
+  }
 
   return (
     <div>
@@ -37,7 +69,7 @@ function App() {
               {/* Filtro: Casa */}
               <label className="filters__label" htmlFor="filter-house">
                 Selecciona una casa
-              </label>
+              </label>     
               <select className="filters__select" id="filter-house">
                 <option value="gryffindor">Gryffindor</option>
                 <option value="slytherin">Slytherin</option>
@@ -62,7 +94,7 @@ function App() {
         {/* LISTADO */}
         <section className="character-list">
           <ul className="character-list__grid">
-            {allCharacters.map((eachCharacter) => (
+            {characters.map((eachCharacter) => (
               <li key={eachCharacter.id} className="card">
 
                 {eachCharacter.image ? (
