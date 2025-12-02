@@ -224,7 +224,12 @@ function App() {
 
                   <h2 className="card__name">{eachCharacter.name}</h2>
                   <p className="card__species">{eachCharacter.specie} </p>
-                  <p className="card__actor">{eachCharacter.actor}</p>
+                  {eachCharacter.actor ? (
+                    <p className="card__actor">{eachCharacter.actor}</p>
+                  ) : (<span className="card__species">
+                      Registros muggle incompletos
+                    </span>)}
+
                 </li>
               ))}
             </ul>
