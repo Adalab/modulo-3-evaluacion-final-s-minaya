@@ -74,6 +74,10 @@ function App() {
   const uniqueHouses = [...new Set(allHouses.filter(house => house !== ""))]; // Elimino vacías
   // Set nos da un conjunto sin duplicados y el spread nos los suelta todos en un array nuevo
 
+  const allStates = [...new Set(characters.map(state => 
+    state.status === true? "alive" : "dead"
+  ))]
+
 
   if (isLoading === true) {
     // Mostramos el loader y no mostramos el resto de la app aún.
@@ -93,16 +97,30 @@ function App() {
     eachCharacter.name
       .toLocaleLowerCase()
       .includes(filters.name.toLocaleLowerCase()))
+
     .filter((eachCharacter) => { // Filtro para magos.
       if (filters.wizard === true) {
         return eachCharacter.wizard === true; // Si filters.wizard es true, solo pasan los magos.
       }
       return true; // Si filters.wizard es false, no entra al if y pasan todos.
     })
-    .filter((eachCharacter) =>
+
+    .filter((eachCharacter) => // Filtro para casa.
       eachCharacter.house
         .toLocaleLowerCase()
         .includes(filters.house.toLocaleLowerCase()))
+
+    .filter((eachCharacter) => { // Filtro para vivos
+      if (filters.alive === "") {
+        return true; // Si está vacío, mostrar todos
+      }
+      if (filters.alive === "alive") {
+        return eachCharacter.status === true;
+      }
+      if (filters.alive === "dead") {
+        return eachCharacter.status === false;
+      }
+    })
     ;
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
 
@@ -155,8 +173,13 @@ function App() {
               </label>
               <select onInput={handleFilter} id="alive" value={filters.alive} className="filters__select" >
                 <option value="">Todos</option>
-                <option value="alive">Vivo</option>
-                <option value="dead">Muerto</option>
+                {allStates.map(eachState => (
+                  <option key={eachState} value={eachState}>
+                    {eachState === "alive" ? "Vivo" : "Muerto"}
+                    </option>
+                ))}
+                
+                
               </select>
             </div>
           </form>
