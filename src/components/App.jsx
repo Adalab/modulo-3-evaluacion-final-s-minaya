@@ -10,7 +10,7 @@ function App() {
   const [filters, setFilters] = useState ({
     name: "",
     wizard: false,
-    house:"",
+    house:"gryffindor",
     alive:"",
 
   });
@@ -47,6 +47,8 @@ fetch('https://hp-api.onrender.com/api/characters')
     return "No hay personajes para mostrar."
   }
 
+  // Funciones manejadoras de eventos
+
   const handleSubmit = (ev) => {
     ev.preventDefault();
   };
@@ -66,16 +68,29 @@ fetch('https://hp-api.onrender.com/api/characters')
     });
 
   };
-  const filteredCharacters = characters.filter((eachCharacter) => 
-  eachCharacter.name
+
+  const allHouses = characters.map((eachCharacter => eachCharacter.house)) // Saco todas las casas
+  const uniqueHouses = [...new Set(allHouses.filter(house => house !== ""))]; // Elimino vacías
+  // Set nos da un conjunto sin duplicados y el spread nos los suelta todos en un array nuevo
+  
+
+  // Código con variables para pintar en la página
+
+  const filteredCharacters = characters.filter((eachCharacter) => // Filtro para el nombre.
+  eachCharacter.name 
   .toLocaleLowerCase()
   .includes(filters.name.toLocaleLowerCase()))
-  .filter((eachCharacter) => {
+  .filter((eachCharacter) => { // Filtro para magos.
     if(filters.wizard === true) {
-      return eachCharacter.wizard === true;
+      return eachCharacter.wizard === true; // Si filters.wizard es true, solo pasan los magos.
     }
-    return true;
-    });
+    return true; // Si filters.wizard es false, no entra al if y pasan todos.
+    })
+    .filter((eachCharacter)=> 
+      eachCharacter.house
+  .toLocaleLowerCase()
+  .includes(filters.house.toLocaleLowerCase()))
+    ;
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
  
   
@@ -115,10 +130,9 @@ fetch('https://hp-api.onrender.com/api/characters')
                 Selecciona una casa
               </label>     
               <select onInput={handleFilter}id="house" value={filters.house}className="filters__select" >
-                <option value="gryffindor">Gryffindor</option>
-                <option value="slytherin">Slytherin</option>
-                <option value="hufflepuff">Hufflepuff</option>
-                <option value="ravenclaw">Ravenclaw</option>
+                {uniqueHouses.map(eachHouse => (
+                  <option key={eachHouse} value={eachHouse.toLocaleLowerCase()}>{eachHouse}</option>
+                ))}
                 <option value="">Todas</option>
               </select>
 
