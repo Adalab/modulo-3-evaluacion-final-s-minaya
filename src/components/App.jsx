@@ -15,12 +15,12 @@ function App() {
 
   });
 
+  
+
 
 
 // Código que se lanza cuando carga la página:
-useEffect(() => {
-  console.log("Estado de filters actualizado", filters);
-  
+useEffect(() => {  
 
 fetch('https://hp-api.onrender.com/api/characters')
 .then((res)=>res.json())
@@ -41,7 +41,7 @@ fetch('https://hp-api.onrender.com/api/characters')
   
   
 });
-},[filters]);
+},[]);
 
   if(characters.length === 0){
     return "No hay personajes para mostrar."
@@ -66,6 +66,13 @@ fetch('https://hp-api.onrender.com/api/characters')
     });
 
   };
+  const filteredCharacters = characters.filter((eachCharacter) => 
+  eachCharacter.name
+  .toLocaleLowerCase()
+  .includes(filters.name.toLocaleLowerCase()))
+  console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
+ 
+  
 
   return (
     <div>
@@ -125,7 +132,7 @@ fetch('https://hp-api.onrender.com/api/characters')
         {/* LISTADO */}
         <section className="character-list">
           <ul className="character-list__grid">
-            {characters.map((eachCharacter) => (
+            {filteredCharacters.map((eachCharacter) => (
               <li key={eachCharacter.id} className="card">
 
                 {eachCharacter.image ? (
