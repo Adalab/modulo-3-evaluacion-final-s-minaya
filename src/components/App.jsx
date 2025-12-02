@@ -70,6 +70,12 @@ fetch('https://hp-api.onrender.com/api/characters')
   eachCharacter.name
   .toLocaleLowerCase()
   .includes(filters.name.toLocaleLowerCase()))
+  .filter((eachCharacter) => {
+    if(filters.wizard === true) {
+      return eachCharacter.wizard === true;
+    }
+    return true;
+    });
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
  
   
@@ -145,7 +151,7 @@ fetch('https://hp-api.onrender.com/api/characters')
                 )}
 
                 <h2 className="card__name">{eachCharacter.name}</h2>
-                <p className="card__species">{eachCharacter.species} </p>
+                <p className="card__species">{eachCharacter.specie} </p>
                 <p className="card__actor">{eachCharacter.actor}</p>
               </li>))}
 
