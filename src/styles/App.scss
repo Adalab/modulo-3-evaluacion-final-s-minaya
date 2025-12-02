@@ -160,3 +160,31 @@ body {
     font-size: 1.4rem;
   }
 }
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #b46cff; // un toque de magia púrpura
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+.loader-text {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+}
+  
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
