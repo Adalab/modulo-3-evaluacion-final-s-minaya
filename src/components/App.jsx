@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "../styles/App.scss";
 
 function App() {
-
   // DATOS DE LA APP:
 
   // Personajes
@@ -14,18 +13,14 @@ function App() {
     wizard: false,
     house: "gryffindor",
     alive: "",
-
   });
 
   // Loader
   const [isLoading, setIsLoading] = useState(true); // Mostramos el loader mientras carga la página
 
-
-
   // Código que se lanza cuando carga la página:
   useEffect(() => {
-
-    fetch('https://hp-api.onrender.com/api/characters')
+    fetch("https://hp-api.onrender.com/api/characters")
       .then((res) => res.json())
       .then((responseData) => {
         const allCleanCharacters = responseData.map((eachCharacter) => ({
@@ -37,13 +32,11 @@ function App() {
           image: eachCharacter.image,
           status: eachCharacter.alive,
           specie: eachCharacter.species,
-          actor: eachCharacter.actor
+          actor: eachCharacter.actor,
         }));
 
         setCharacters(allCleanCharacters);
         setIsLoading(false); // Ocultamos el loader tras cargar la página
-
-
       });
   }, []);
 
@@ -56,28 +49,27 @@ function App() {
   const handleFilter = (ev) => {
     setFilters({
       ...filters,
-      [ev.target.id]: ev.target.value
-    })
+      [ev.target.id]: ev.target.value,
+    });
     console.log(ev.target.value);
-
-  }
+  };
 
   const handleChangeCheckbox = (ev) => {
     setFilters({
       ...filters,
       wizard: ev.target.checked,
     });
-
   };
 
-  const allHouses = characters.map((eachCharacter => eachCharacter.house)) // Saco todas las casas
-  const uniqueHouses = [...new Set(allHouses.filter(house => house !== ""))]; // Elimino vacías
+  const allHouses = characters.map((eachCharacter) => eachCharacter.house); // Saco todas las casas
+  const uniqueHouses = [...new Set(allHouses.filter((house) => house !== ""))]; // Elimino vacías
   // Set nos da un conjunto sin duplicados y el spread nos los suelta todos en un array nuevo
 
-  const allStates = [...new Set(characters.map(state => 
-    state.status === true? "alive" : "dead"
-  ))]
-
+  const allStates = [
+    ...new Set(
+      characters.map((state) => (state.status === true ? "alive" : "dead"))
+    ),
+  ];
 
   if (isLoading === true) {
     // Mostramos el loader y no mostramos el resto de la app aún.
@@ -90,27 +82,37 @@ function App() {
     );
   }
 
-
   // Código con variables para pintar en la página
 
-  const filteredCharacters = characters.filter((eachCharacter) => // Filtro para el nombre.
-    eachCharacter.name
-      .toLocaleLowerCase()
-      .includes(filters.name.toLocaleLowerCase()))
+  const filteredCharacters = characters
+    .filter((eachCharacter) => {
+      // Filtro para nombre (personaje o actor)
+      const searchText = filters.name.toLocaleLowerCase();
+      return (
+        eachCharacter.name.toLocaleLowerCase().includes(searchText) ||
+        eachCharacter.actor.toLocaleLowerCase().includes(searchText)
+      );
+    })
 
-    .filter((eachCharacter) => { // Filtro para magos.
+    .filter((eachCharacter) => {
+      // Filtro para magos.
       if (filters.wizard === true) {
         return eachCharacter.wizard === true; // Si filters.wizard es true, solo pasan los magos.
       }
       return true; // Si filters.wizard es false, no entra al if y pasan todos.
     })
 
-    .filter((eachCharacter) => // Filtro para casa.
-      eachCharacter.house
-        .toLocaleLowerCase()
-        .includes(filters.house.toLocaleLowerCase()))
+    .filter(
+      (
+        eachCharacter // Filtro para casa.
+      ) =>
+        eachCharacter.house
+          .toLocaleLowerCase()
+          .includes(filters.house.toLocaleLowerCase())
+    )
 
-    .filter((eachCharacter) => { // Filtro para vivos
+    .filter((eachCharacter) => {
+      // Filtro para vivos
       if (filters.alive === "") {
         return true; // Si está vacío, mostrar todos
       }
@@ -120,11 +122,8 @@ function App() {
       if (filters.alive === "dead") {
         return eachCharacter.status === false;
       }
-    })
-    ;
+    });
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
-
-
 
   return (
     <div>
@@ -137,7 +136,7 @@ function App() {
             <div className="filters__left">
               {/* Filtro: Nombre */}
               <label className="filters__label" htmlFor="filter-name">
-                Busca por nombre
+                Busca por personaje o actor
               </label>
               <input
                 onInput={handleFilter}
@@ -145,12 +144,18 @@ function App() {
                 value={filters.name}
                 type="text"
                 className="filters__input"
-                placeholder="Hermione..."
+                placeholder="Luna Lovegood, Emma Watson..."
               />
 
               {/* Filtro: Magos */}
               <label className="filters__check" htmlFor="wizard">
-                <input id="wizard" type="checkbox" className="filters__checkbox" checked={filters.wizard} onChange={handleChangeCheckbox} />
+                <input
+                  id="wizard"
+                  type="checkbox"
+                  className="filters__checkbox"
+                  checked={filters.wizard}
+                  onChange={handleChangeCheckbox}
+                />
                 Solo Magos
               </label>
             </div>
@@ -160,9 +165,16 @@ function App() {
               <label className="filters__label" htmlFor="filter-house">
                 Selecciona una casa
               </label>
-              <select onInput={handleFilter} id="house" value={filters.house} className="filters__select" >
-                {uniqueHouses.map(eachHouse => (
-                  <option key={eachHouse} value={eachHouse.toLocaleLowerCase()}>{eachHouse}</option>
+              <select
+                onInput={handleFilter}
+                id="house"
+                value={filters.house}
+                className="filters__select"
+              >
+                {uniqueHouses.map((eachHouse) => (
+                  <option key={eachHouse} value={eachHouse.toLocaleLowerCase()}>
+                    {eachHouse}
+                  </option>
                 ))}
                 <option value="">Todas</option>
               </select>
@@ -171,15 +183,18 @@ function App() {
               <label className="filters__label" htmlFor="filter-status">
                 Estado:
               </label>
-              <select onInput={handleFilter} id="alive" value={filters.alive} className="filters__select" >
+              <select
+                onInput={handleFilter}
+                id="alive"
+                value={filters.alive}
+                className="filters__select"
+              >
                 <option value="">Todos</option>
-                {allStates.map(eachState => (
+                {allStates.map((eachState) => (
                   <option key={eachState} value={eachState}>
                     {eachState === "alive" ? "Vivo" : "Muerto"}
-                    </option>
+                  </option>
                 ))}
-                
-                
               </select>
             </div>
           </form>
@@ -190,21 +205,23 @@ function App() {
           <ul className="character-list__grid">
             {filteredCharacters.map((eachCharacter) => (
               <li key={eachCharacter.id} className="card">
-
                 {eachCharacter.image ? (
-                  <img className="card__img"
+                  <img
+                    className="card__img"
                     src={eachCharacter.image}
                     alt={"Foto de " + eachCharacter.name}
                   />
                 ) : (
-                  <span className="card__img card__img--noimg">El ministerio no envió la foto a tiempo.</span>
+                  <span className="card__img card__img--noimg">
+                    El ministerio no envió la foto a tiempo.
+                  </span>
                 )}
 
                 <h2 className="card__name">{eachCharacter.name}</h2>
                 <p className="card__species">{eachCharacter.specie} </p>
                 <p className="card__actor">{eachCharacter.actor}</p>
-              </li>))}
-
+              </li>
+            ))}
           </ul>
         </section>
       </main>

@@ -42,9 +42,9 @@ body {
     flex-wrap: wrap;
     gap: 2rem;
 
-       @media (min-width: 600px) {
-      flex-direction: row;     
-      flex-wrap: wrap;          
+    @media (min-width: 600px) {
+      flex-direction: row;
+      flex-wrap: wrap;
       align-items: flex-start;
     }
 
@@ -160,6 +160,7 @@ body {
     font-size: 1.4rem;
   }
 }
+
 .loader-container {
   display: flex;
   flex-direction: column;
@@ -182,7 +183,7 @@ body {
   opacity: 0.8;
   letter-spacing: 0.5px;
 }
-  
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
