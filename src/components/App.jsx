@@ -122,7 +122,9 @@ function App() {
       if (filters.alive === "dead") {
         return eachCharacter.status === false;
       }
-    });
+    })
+    .sort((firstCharacter, secondCharacter) => 
+    firstCharacter.name.localeCompare(secondCharacter.name));
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
 
   return (
