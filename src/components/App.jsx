@@ -51,13 +51,20 @@ function App() {
       ...filters,
       [ev.target.id]: ev.target.value,
     });
-    console.log(ev.target.value);
   };
 
   const handleChangeCheckbox = (ev) => {
     setFilters({
       ...filters,
       wizard: ev.target.checked,
+    });
+  };
+  const handleReset = () => {
+    setFilters({
+      name: "",
+      wizard: false,
+      house: "gryffindor",
+      alive: "",
     });
   };
 
@@ -123,8 +130,9 @@ function App() {
         return eachCharacter.status === false;
       }
     })
-    .sort((firstCharacter, secondCharacter) => 
-    firstCharacter.name.localeCompare(secondCharacter.name));
+    .sort((firstCharacter, secondCharacter) =>
+      firstCharacter.name.localeCompare(secondCharacter.name)
+    );
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
 
   return (
@@ -160,6 +168,14 @@ function App() {
                 />
                 Solo Magos
               </label>
+
+              <button
+                type="button"
+                className="filters__resetBtn"
+                onClick={handleReset}
+              >
+                Reiniciar Filtros
+              </button>
             </div>
 
             <div className="filters__right">
@@ -182,7 +198,10 @@ function App() {
               </select>
 
               {/* Filtro: Estado */}
-              <label className="filters__label" htmlFor="filter-status">
+              <label
+                className="filters__label filters__label--bottom"
+                htmlFor="filter-status"
+              >
                 Estado:
               </label>
               <select
@@ -228,10 +247,11 @@ function App() {
                   <p className="card__species">{eachCharacter.specie} </p>
                   {eachCharacter.actor ? (
                     <p className="card__actor">{eachCharacter.actor}</p>
-                  ) : (<span className="card__species">
+                  ) : (
+                    <span className="card__species">
                       Registros muggle incompletos
-                    </span>)}
-
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
