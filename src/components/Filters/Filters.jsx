@@ -32,7 +32,7 @@ function Filters({ filters, setFilters, hogwartsHouses, allStates }) {
       <form onSubmit={handleSubmit} className="filters__form">
         <div className="filters__left">
           {/* Filtro: Nombre */}
-          <label className="filters__label" htmlFor="filter-name">
+          <label className="filters__label" htmlFor="name">
             Busca por personaje o actor
           </label>
           <input
@@ -67,7 +67,7 @@ function Filters({ filters, setFilters, hogwartsHouses, allStates }) {
 
         <div className="filters__right">
           {/* Filtro: Casa */}
-          <label className="filters__label" htmlFor="filter-house">
+          <label className="filters__label" htmlFor="house">
             Selecciona una casa
           </label>
           <select

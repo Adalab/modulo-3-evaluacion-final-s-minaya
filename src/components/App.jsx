@@ -69,6 +69,17 @@ function App() {
     );
   }
 
+  const findCharacter = (characterId) => {
+      const character = characters.find((oneCharacter) => oneCharacter.id === characterId);
+      console.log(character);
+      
+
+      return character;
+  }
+
+
+  
+
   // Código con variables para pintar en la página
 
   const filteredCharacters = characters
@@ -117,8 +128,8 @@ function App() {
           hogwartsHouses={hogwartsHouses}
           allStates={allStates}
         />
-        <CharacterList filteredCharacters={filteredCharacters} /></>}/>
-          <Route path="/character/:id" element={<CharacterDetail/>
+        <CharacterList filteredCharacters={filteredCharacters}/></>}/>
+          <Route path="/character/:characterId" element={<CharacterDetail findCharacter={findCharacter}/>
           }/>
         </Routes>
        
