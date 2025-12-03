@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router";
 import "../styles/App.scss";
 import Filters from "./Filters/Filters";
 import CharacterList from "./Characters/CharacterList";
 import Header from "./Layout/Header";
+import CharacterDetail from "./Characters/CharaterDetail";
+
+
 
 function App() {
   // DATOS DE LA APP:
@@ -103,16 +107,21 @@ function App() {
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
 
   return (
-    <div>
+    <div>     
       <Header/>
       <main className="main">
-        <Filters
+        <Routes>
+          <Route path="/" element={<> <Filters
           filters={filters}
           setFilters={setFilters}
           hogwartsHouses={hogwartsHouses}
           allStates={allStates}
         />
-        <CharacterList filteredCharacters={filteredCharacters} />
+        <CharacterList filteredCharacters={filteredCharacters} /></>}/>
+          <Route path="/character/:id" element={<CharacterDetail/>
+          }/>
+        </Routes>
+       
       </main>
     </div>
   );

@@ -1,6 +1,9 @@
+import { Link } from "react-router";
+
 function CharacterCard({ eachCharacter }) {
   return (
     <li className="card">
+        <Link to ={"/character/" + eachCharacter.id} className="card__link">
       {eachCharacter.image ? (
         <img
           className="card__img"
@@ -20,6 +23,7 @@ function CharacterCard({ eachCharacter }) {
       ) : (
         <span className="card__species">Registros muggle incompletos</span>
       )}
+      </Link>
     </li>
   );
 }
