@@ -23,11 +23,16 @@ function App() {
   // Casas
   const hogwartsHouses = ["gryffindor", "slytherin", "ravenclaw", "hufflepuff"];
 
+  // Estados
+  const allStates = ["alive", "dead"];
+
   // Loader
   const [isLoading, setIsLoading] = useState(true); // Mostramos el loader mientras carga la página
 
   // Código que se lanza cuando carga la página o cambia el filtro:
   useEffect(() => {
+    setIsLoading(true);
+
     fetch("https://hp-api.onrender.com/api/characters/house/" + filters.house)
       .then((res) => res.json())
       .then((responseData) => {
@@ -47,14 +52,6 @@ function App() {
       });
   }, [filters.house]);
 
-  // Estados
-
-  const allStates = [
-    ...new Set(
-      characters.map((state) => (state.status === true ? "alive" : "dead"))
-    ),
-  ];
-
   if (isLoading === true) {
     // Mostramos el loader y no mostramos el resto de la app aún.
     // React hace return aquí y no pasa de esta parte.
@@ -67,11 +64,12 @@ function App() {
   }
 
   const findCharacter = (characterId) => {
+    if (characters.length === 0) {
+      return undefined;
+    }
     const character = characters.find(
       (oneCharacter) => oneCharacter.id === characterId
     );
-    console.log(character);
-
     return character;
   };
 
@@ -89,7 +87,7 @@ function App() {
 
     .filter((eachCharacter) => {
       if (filters.image === true) {
-        return eachCharacter.image !== "";
+        return eachCharacter.image;
       }
       return true;
     })

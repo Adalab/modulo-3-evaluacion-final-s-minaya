@@ -26,7 +26,14 @@ function CharacterDetail({ findCharacter }) {
 
   const characterId = params.characterId;
   const foundCharacter = findCharacter(characterId);
-
+  if (foundCharacter === undefined) {
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+        <p className="loader-text">Cargando personaje…</p>
+      </div>
+    );
+  }
   const statusIcons = {
     true: alive,
     false: dead,
