@@ -4,7 +4,7 @@ function Filters({ filters, setFilters, hogwartsHouses, allStates }) {
   const handleReset = () => {
     setFilters({
       name: "",
-      wizard: false,
+      image: false,
       house: "gryffindor",
       alive: "",
     });
@@ -13,7 +13,7 @@ function Filters({ filters, setFilters, hogwartsHouses, allStates }) {
   const handleChangeCheckbox = (ev) => {
     setFilters({
       ...filters,
-      wizard: ev.target.checked,
+      image: ev.target.checked,
     });
   };
 
@@ -45,15 +45,15 @@ function Filters({ filters, setFilters, hogwartsHouses, allStates }) {
           />
 
           {/* Filtro: Magos */}
-          <label className="filters__check" htmlFor="wizard">
+          <label className="filters__check" htmlFor="image">
             <input
-              id="wizard"
+              id="image"
               type="checkbox"
               className="filters__checkbox"
-              checked={filters.wizard}
+              checked={filters.image}
               onChange={handleChangeCheckbox}
             />
-            Solo Magos
+            Solo personajes con foto
           </label>
 
           <button

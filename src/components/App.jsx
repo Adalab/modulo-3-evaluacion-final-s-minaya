@@ -6,8 +6,6 @@ import CharacterList from "./Characters/CharacterList";
 import Header from "./Layout/Header";
 import CharacterDetail from "./Characters/CharaterDetail";
 
-
-
 function App() {
   // DATOS DE LA APP:
 
@@ -17,7 +15,7 @@ function App() {
   // Filtros
   const [filters, setFilters] = useState({
     name: "",
-    wizard: false,
+    image: false,
     house: "gryffindor",
     alive: "",
   });
@@ -36,7 +34,6 @@ function App() {
         const allCleanCharacters = responseData.map((eachCharacter) => ({
           id: eachCharacter.id,
           name: eachCharacter.name,
-          wizard: eachCharacter.wizard,
           gender: eachCharacter.gender,
           house: eachCharacter.house,
           image: eachCharacter.image,
@@ -70,15 +67,13 @@ function App() {
   }
 
   const findCharacter = (characterId) => {
-      const character = characters.find((oneCharacter) => oneCharacter.id === characterId);
-      console.log(character);
-      
+    const character = characters.find(
+      (oneCharacter) => oneCharacter.id === characterId
+    );
+    console.log(character);
 
-      return character;
-  }
-
-
-  
+    return character;
+  };
 
   // Código con variables para pintar en la página
 
@@ -93,11 +88,10 @@ function App() {
     })
 
     .filter((eachCharacter) => {
-      // Filtro para magos.
-      if (filters.wizard === true) {
-        return eachCharacter.wizard === true; // Si filters.wizard es true, solo pasan los magos.
+      if (filters.image === true) {
+        return eachCharacter.image !== "";
       }
-      return true; // Si filters.wizard es false, no entra al if y pasan todos.
+      return true;
     })
 
     .filter((eachCharacter) => {
@@ -118,21 +112,30 @@ function App() {
   console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
 
   return (
-    <div>     
-      <Header/>
+    <div>
+      <Header />
       <main className="main">
         <Routes>
-          <Route path="/" element={<> <Filters
-          filters={filters}
-          setFilters={setFilters}
-          hogwartsHouses={hogwartsHouses}
-          allStates={allStates}
-        />
-        <CharacterList filteredCharacters={filteredCharacters}/></>}/>
-          <Route path="/character/:characterId" element={<CharacterDetail findCharacter={findCharacter}/>
-          }/>
+          <Route
+            path="/"
+            element={
+              <>
+                {" "}
+                <Filters
+                  filters={filters}
+                  setFilters={setFilters}
+                  hogwartsHouses={hogwartsHouses}
+                  allStates={allStates}
+                />
+                <CharacterList filteredCharacters={filteredCharacters} />
+              </>
+            }
+          />
+          <Route
+            path="/character/:characterId"
+            element={<CharacterDetail findCharacter={findCharacter} />}
+          />
         </Routes>
-       
       </main>
     </div>
   );
