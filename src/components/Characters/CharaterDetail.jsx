@@ -54,17 +54,19 @@ function CharacterDetail({ findCharacter }) {
 
   const houseKey = foundCharacter.house.toLowerCase();
   const specieKey =
-  foundCharacter.specie.toLowerCase() === "half-giant"
-    ? "giant"
-    : foundCharacter.specie.toLowerCase();
+    foundCharacter.specie.toLowerCase() === "half-giant"
+      ? "giant"
+      : foundCharacter.specie.toLowerCase();
 
   return (
     <section className="detail">
-      <Link to="/" className="detail__back"> Retroceda 
-        <i className="fa-solid fa-wand-sparkles"></i> 
+      <Link to="/" className="detail__back">
+        {" "}
+        Retroceda
+        <i className="fa-solid fa-wand-sparkles"></i>
       </Link>
 
-      <div className="detail__card">
+      <div className={`detail__card detail__card--${houseKey}`}>
         {foundCharacter.image ? (
           <img
             className="detail__img"
@@ -112,12 +114,8 @@ function CharacterDetail({ findCharacter }) {
                 className="detail__icon"
                 src={houseIcons[houseKey]}
                 alt={`Foto de ${foundCharacter.house}`}
-                
               />
-              
-              
             </li>
-            
           </ul>
         </div>
       </div>
