@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import "../styles/App.scss";
+import Filters from "./Filters/Filters";
+import CharacterList from "./Characters/CharacterList";
+import Header from "./Layout/Header";
 
 function App() {
   // DATOS DE LA APP:
@@ -21,7 +24,7 @@ function App() {
   // Loader
   const [isLoading, setIsLoading] = useState(true); // Mostramos el loader mientras carga la página
 
-  // Código que se lanza cuando carga la página:
+  // Código que se lanza cuando carga la página o cambia el filtro:
   useEffect(() => {
     fetch("https://hp-api.onrender.com/api/characters/house/" + filters.house)
       .then((res) => res.json())
@@ -43,35 +46,7 @@ function App() {
       });
   }, [filters.house]);
 
-  // Funciones manejadoras de eventos
-
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-  };
-
-  const handleFilter = (ev) => {
-    setFilters({
-      ...filters,
-      [ev.target.id]: ev.target.value,
-    });
-  };
-
-  const handleChangeCheckbox = (ev) => {
-    setFilters({
-      ...filters,
-      wizard: ev.target.checked,
-    });
-  };
-  const handleReset = () => {
-    setFilters({
-      name: "",
-      wizard: false,
-      house: "gryffindor",
-      alive: "",
-    });
-  };
-
- 
+  // Estados
 
   const allStates = [
     ...new Set(
@@ -110,7 +85,6 @@ function App() {
       return true; // Si filters.wizard es false, no entra al if y pasan todos.
     })
 
-
     .filter((eachCharacter) => {
       // Filtro para vivos
       if (filters.alive === "") {
@@ -130,125 +104,15 @@ function App() {
 
   return (
     <div>
-      <header className="header">
-        <h1 className="title">Personajes de Harry Potter</h1>
-      </header>
+      <Header/>
       <main className="main">
-        <section className="filters">
-          <form onSubmit={handleSubmit} className="filters__form">
-            <div className="filters__left">
-              {/* Filtro: Nombre */}
-              <label className="filters__label" htmlFor="filter-name">
-                Busca por personaje o actor
-              </label>
-              <input
-                onInput={handleFilter}
-                id="name"
-                value={filters.name}
-                type="text"
-                className="filters__input"
-                placeholder="Luna Lovegood, Emma Watson..."
-              />
-
-              {/* Filtro: Magos */}
-              <label className="filters__check" htmlFor="wizard">
-                <input
-                  id="wizard"
-                  type="checkbox"
-                  className="filters__checkbox"
-                  checked={filters.wizard}
-                  onChange={handleChangeCheckbox}
-                />
-                Solo Magos
-              </label>
-
-              <button
-                type="button"
-                className="filters__resetBtn"
-                onClick={handleReset}
-              >
-                Reiniciar Filtros
-              </button>
-            </div>
-
-            <div className="filters__right">
-              {/* Filtro: Casa */}
-              <label className="filters__label" htmlFor="filter-house">
-                Selecciona una casa
-              </label>
-              <select
-                onInput={handleFilter}
-                id="house"
-                value={filters.house}
-                className="filters__select"
-              >
-                {hogwartsHouses.map((eachHouse) => (
-                  <option key={eachHouse} value={eachHouse}>
-                    {eachHouse[0].toUpperCase() + eachHouse.slice(1)}
-                  </option>
-                ))}
-              </select>
-
-              {/* Filtro: Estado */}
-              <label
-                className="filters__label filters__label--bottom"
-                htmlFor="filter-status"
-              >
-                Estado:
-              </label>
-              <select
-                onInput={handleFilter}
-                id="alive"
-                value={filters.alive}
-                className="filters__select"
-              >
-                <option value="">Todos</option>
-                {allStates.map((eachState) => (
-                  <option key={eachState} value={eachState}>
-                    {eachState === "alive" ? "Vivo" : "Muerto"}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </form>
-        </section>
-
-        {/* LISTADO */}
-        <section className="character-list">
-          {filteredCharacters.length === 0 ? (
-            <p className="no-results">
-              Este personaje aún no ha salido de la cámara de los secretos...
-            </p>
-          ) : (
-            <ul className="character-list__grid">
-              {filteredCharacters.map((eachCharacter) => (
-                <li key={eachCharacter.id} className="card">
-                  {eachCharacter.image ? (
-                    <img
-                      className="card__img"
-                      src={eachCharacter.image}
-                      alt={"Foto de " + eachCharacter.name}
-                    />
-                  ) : (
-                    <span className="card__img card__img--noimg">
-                      El ministerio no envió la foto a tiempo.
-                    </span>
-                  )}
-
-                  <h2 className="card__name">{eachCharacter.name}</h2>
-                  <p className="card__species">{eachCharacter.specie} </p>
-                  {eachCharacter.actor ? (
-                    <p className="card__actor">{eachCharacter.actor}</p>
-                  ) : (
-                    <span className="card__species">
-                      Registros muggle incompletos
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+        <Filters
+          filters={filters}
+          setFilters={setFilters}
+          hogwartsHouses={hogwartsHouses}
+          allStates={allStates}
+        />
+        <CharacterList filteredCharacters={filteredCharacters} />
       </main>
     </div>
   );
