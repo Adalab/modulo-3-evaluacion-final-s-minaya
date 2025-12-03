@@ -15,12 +15,15 @@ function App() {
     alive: "",
   });
 
+  // Casas
+  const hogwartsHouses = ["gryffindor", "slytherin", "ravenclaw", "hufflepuff"];
+
   // Loader
   const [isLoading, setIsLoading] = useState(true); // Mostramos el loader mientras carga la página
 
   // Código que se lanza cuando carga la página:
   useEffect(() => {
-    fetch("https://hp-api.onrender.com/api/characters")
+    fetch("https://hp-api.onrender.com/api/characters/house/" + filters.house)
       .then((res) => res.json())
       .then((responseData) => {
         const allCleanCharacters = responseData.map((eachCharacter) => ({
@@ -38,7 +41,7 @@ function App() {
         setCharacters(allCleanCharacters);
         setIsLoading(false); // Ocultamos el loader tras cargar la página
       });
-  }, []);
+  }, [filters.house]);
 
   // Funciones manejadoras de eventos
 
@@ -68,9 +71,7 @@ function App() {
     });
   };
 
-  const allHouses = characters.map((eachCharacter) => eachCharacter.house); // Saco todas las casas
-  const uniqueHouses = [...new Set(allHouses.filter((house) => house !== ""))]; // Elimino vacías
-  // Set nos da un conjunto sin duplicados y el spread nos los suelta todos en un array nuevo
+ 
 
   const allStates = [
     ...new Set(
@@ -109,14 +110,6 @@ function App() {
       return true; // Si filters.wizard es false, no entra al if y pasan todos.
     })
 
-    .filter(
-      (
-        eachCharacter // Filtro para casa.
-      ) =>
-        eachCharacter.house
-          .toLocaleLowerCase()
-          .includes(filters.house.toLocaleLowerCase())
-    )
 
     .filter((eachCharacter) => {
       // Filtro para vivos
@@ -189,12 +182,11 @@ function App() {
                 value={filters.house}
                 className="filters__select"
               >
-                {uniqueHouses.map((eachHouse) => (
-                  <option key={eachHouse} value={eachHouse.toLocaleLowerCase()}>
-                    {eachHouse}
+                {hogwartsHouses.map((eachHouse) => (
+                  <option key={eachHouse} value={eachHouse}>
+                    {eachHouse[0].toUpperCase() + eachHouse.slice(1)}
                   </option>
                 ))}
-                <option value="">Todas</option>
               </select>
 
               {/* Filtro: Estado */}
