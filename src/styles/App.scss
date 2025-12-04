@@ -207,6 +207,8 @@ body {
 
 .character-list {
   padding: 1.6rem;
+   max-width: var(--block-max-width);
+   margin: 0 auto;
 
   &__grid {
     display: grid;

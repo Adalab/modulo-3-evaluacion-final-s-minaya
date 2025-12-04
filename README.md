@@ -116,4 +116,5 @@ La app incorpora:
 
 Proyecto desarrollado por **Sofía Minaya**, quien sigue esperando su carta de Hogwarts.
 
-👉 **Puedes ver el proyecto funcionando aquí:**
+👉 **Puedes ver el proyecto funcionando**
+[aquí:](http://beta.adalab.es/modulo-3-evaluacion-final-s-minaya/)
