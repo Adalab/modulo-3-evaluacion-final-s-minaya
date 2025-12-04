@@ -3,19 +3,54 @@
   padding: 0;
   box-sizing: border-box;
 }
+:root {
+  /* COLORES BASE */
+  --color-bg-main: #311e63;
+  --color-text-main: #ffffff;
+  --color-dark: #1e1e1e;
+  --color-gray: #444;
+  --color-accent: #d4c39e;
+
+  /* TIPOGRAFIAS */
+  --font-main: "Cormorant", "Arial Narrow", Arial, sans-serif;
+  --font-title: "IM Fell English SC", "Arial Narrow", Arial, sans-serif;
+
+  /* CHECKBOX */
+  --checkbox-bg: rgba(255, 255, 255, 0.05);
+  --checkbox-border: rgba(255, 255, 255, 0.6);
+
+  /* BOTONES */
+  --btn-radius: 0.6rem;
+
+  /* BLOQUES */
+  --block-bg: rgba(40, 40, 40, 0.242);
+  --block-texture: url("https://www.transparenttextures.com/patterns/stardust.png");
+  --block-blur: blur(2px);
+  --block-max-width: 100rem;
+  --block-padding: 1.6rem;
+
+  /* TARJETAS */
+  --card-bg-start: rgba(80, 80, 80, 0.45);
+  --card-bg-end: rgba(30, 30, 30, 0.55);
+  --card-border: 1px solid rgba(255, 255, 255, 0.15);
+  --card-radius: 1.2rem;
+
+  /* CASAS */
+  --houses-card-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
 
 html {
   font-size: 62.5%;
 }
 
 body {
-  font-family: "Cormorant", "Arial Narrow", Arial, sans-serif;
-  background-color: #311e63;
+  font-family: var(--font-main);
+  background-color: var(--color-bg-main);
   background-image: url("https://www.transparenttextures.com/patterns/nice-snow.png");
   background-repeat: repeat;
   background-size: contain;
   background-position: center;
-  color: #fff;
+  color: var(--color-text-main);
   min-height: 100dvh;
 }
 
@@ -37,17 +72,18 @@ body {
   padding: 1.6rem;
 
   &__form {
-    background: rgba(37, 37, 37, 0.45);
-    backdrop-filter: blur(2px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 1.6rem;
-    border-radius: 1rem;
+    background: var(--block-bg);
+    background-image: var(--block-texture);
+    backdrop-filter: var(--block-blur);
+    border: var(--card-border);
+    padding: var(--block-padding);
+    border-radius: var(--card-radius);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: space-evenly;
-    max-width: 100rem;
+    max-width: var(--block-max-width);
     margin: 0 auto;
 
     @media (min-width: 600px) {
@@ -73,26 +109,25 @@ body {
     cursor: pointer;
     width: 1.8rem;
     height: 1.8rem;
-    border: 2px solid rgba(255, 255, 255, 0.6);
+    border: 2px solid var(--checkbox-border);
     border-radius: 0.4rem;
-
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--checkbox-bg);
     transition: all 0.2s ease;
     position: relative;
   }
 
   .filters__checkbox:hover {
-    border-color: #d4c39e;
+    border-color: var(--color-accent);
   }
 
   .filters__checkbox:checked {
-    background: #d4c39e;
-    border-color: #d4c39e;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
   }
 
   .filters__checkbox:checked::after {
     content: "✶";
-    color: #1a1a1a;
+    color: var(--color-dark);
     font-size: 1.4rem;
     font-weight: 700;
     position: absolute;
@@ -122,11 +157,11 @@ body {
     padding: 0.8rem 1rem;
     border-radius: 0.8rem;
     border: none;
-    background-color: #444;
-    color: #fff;
+    background-color: var(--color-gray);
+    color: var(--color-text-main);
     font-size: 1.6rem;
     max-width: 28rem;
-    font-family: "Cormorant", "Arial Narrow", Arial, sans-serif;
+    font-family: var(--font-main);
   }
 
   /* CHECKBOX*/
@@ -152,13 +187,13 @@ body {
     width: fit-content;
     align-self: flex-start;
     border: none;
-    border-radius: 0.6rem;
-    background-color: #333;
-    color: #fff;
+    border-radius: var(--btn-radius);
+    background-color: var(--color-dark);
+    color: var(--color-text-main);
     cursor: pointer;
     font-size: 2rem;
     transition: background-color 0.2s, opacity 0.2s;
-    font-family: "Cormorant", "Arial Narrow", Arial, sans-serif;
+    font-family: var(--font-main);
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
 
     &:hover {
@@ -201,18 +236,22 @@ body {
     rgba(80, 80, 80, 0.45),
     rgba(30, 30, 30, 0.55)
   );
-  background: rgba(37, 37, 37, 0.45);
   backdrop-filter: blur(2px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 1.2rem;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
   padding: 1.6rem;
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 0 18px rgba(212, 195, 158, 0.35);
+  }
 
   &__img {
     width: 100%;
     height: 24rem;
     object-fit: contain;
-    border-radius: 1rem;
     margin-bottom: 1rem;
     display: block;
 
@@ -221,12 +260,11 @@ body {
       align-items: center;
       justify-content: center;
       height: 24rem;
-      border-radius: 0;
       padding: 1rem;
       background-image: url("https://images.pexels.com/photos/7978816/pexels-photo-7978816.jpeg");
       background-size: cover;
       background-position: center;
-      color: #f4f4f4;
+      color: var(--color-text-main);
       font-size: 2rem;
       font-weight: 600;
       text-align: center;
@@ -239,7 +277,7 @@ body {
   &__name {
     font-size: 2.5rem;
     font-weight: 700;
-    font-family: "IM Fell English SC", "Arial Narrow", Arial, sans-serif;
+    font-family: var(--font-title);
     margin: 1rem 0 0.4rem;
   }
 
@@ -252,31 +290,35 @@ body {
 
   &__link {
     text-decoration: none;
-    color: white;
+    color: var(--color-text-main);
   }
 }
 
 /* LOADER */
 
 .loader-container {
+  width: 100%;
+  height: 40dvh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-top: 40px;
+  padding: 2rem;
+  text-align: center;
 }
 
 .loader {
   width: 60px;
   height: 60px;
   border: 6px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #b46cff; // un toque de magia púrpura
+  border-top-color: #b46cff;
   border-radius: 50%;
-  animation: spin 0.9s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 .loader-text {
   margin-top: 15px;
-  font-size: 1.1rem;
+  font-size: 2rem;
   opacity: 0.8;
   letter-spacing: 0.5px;
 }
@@ -289,12 +331,16 @@ body {
 
 .no-results {
   margin-top: 2rem;
-  padding: 1.5rem;
+  padding: var(--block-padding);
   text-align: center;
-  background: rgba(40, 40, 40, 0.4);
-  border: 1px dashed #8a8a8a;
-  border-radius: 0.5rem;
-  color: #e5e5e5;
+  background: var(--block-bg);
+  background-image: var(--block-texture);
+  border: var(--card-border);
+  backdrop-filter: var(--block-blur);
+  border-radius: var(--card-radius);
+  max-width: var(--block-max-width);
+  margin: 0 auto;
+  color: var(--color-text-main);
   font-size: 2rem;
   line-height: 1.4;
   letter-spacing: 0.3px;
@@ -312,14 +358,16 @@ body {
     width: fit-content;
     margin-left: auto;
     gap: 0.6rem;
+    border: none;
     font-size: 2rem;
-    color: #fff;
+    color: var(--color-text-main);
     text-decoration: none;
     margin-bottom: 2rem;
     padding: 0.6rem 1rem;
-    background-color: #333;
-    border-radius: 0.6rem;
+    background-color: var(--color-gray);
+    border-radius: var(--btn-radius);
     transition: background-color 0.2s, opacity 0.2s;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.825);
 
     &:hover {
       background-color: rgba(140, 127, 86, 0.51);
@@ -328,8 +376,7 @@ body {
   }
 
   &__card {
-    background-color: grey;
-    border-radius: 1.2rem;
+    border-radius: var(--card-radius);
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -344,7 +391,6 @@ body {
   &__img {
     width: 100%;
     max-width: 200px;
-    border-radius: 1rem;
     object-fit: cover;
     align-self: center;
   }
@@ -357,7 +403,7 @@ body {
   }
 
   &__title {
-    font-family: "IM Fell English SC", "Arial Narrow", Arial, sans-serif;
+    font-family: var(--font-title);
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -387,25 +433,25 @@ body {
 }
 
 .detail__card--gryffindor {
-  background: linear-gradient(145deg, #5e1515, #3a0d0d);
+  background: linear-gradient(145deg, #801e1e, #3a0d0d);
   border: 2px solid rgba(245, 208, 80, 0.6);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--houses-card-shadow);
 }
 
 .detail__card--slytherin {
-  background: linear-gradient(145deg, #093226, #06241b);
+  background: linear-gradient(145deg, #115c45, #06241b);
   border: 2px solid rgba(180, 200, 190, 0.4);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--houses-card-shadow);
 }
 
 .detail__card--ravenclaw {
-  background: linear-gradient(145deg, #152b66, #0e1d48);
+  background: linear-gradient(145deg, #20419b, #0f2151);
   border: 2px solid rgba(240, 180, 60, 0.45);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--houses-card-shadow);
 }
 
 .detail__card--hufflepuff {
-  background: linear-gradient(145deg, #b79a2e, #7a671f);
-  border: 2px solid rgba(31, 31, 31, 0.5);
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(145deg, #b79a2e, #5c4d17);
+  border: 3px solid rgba(95, 83, 83, 0.775);
+  box-shadow: var(--houses-card-shadow);
 }

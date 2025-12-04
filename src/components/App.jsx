@@ -9,15 +9,15 @@ import CharacterDetail from "./Characters/CharaterDetail";
 function App() {
   // DATOS DE LA APP:
 
-  // Personajes
+  // Personajes que trae la API limpios
   const [characters, setCharacters] = useState([]);
 
-  // Filtros
+  // Filtros seleccionados por la usuaria
   const [filters, setFilters] = useState({
-    name: "",
-    image: false,
-    house: "gryffindor",
-    alive: "",
+    name: "", // input "Busca por personaje o actor"
+    image: false, // checkbox "Solo personajes con foto"
+    house: "gryffindor", // select "Selecciona una casa"
+    alive: "", // Estado: "", "alive" o "dead"
   });
 
   // Casas
@@ -31,12 +31,14 @@ function App() {
 
   // Código que se lanza cuando carga la página o cambia el filtro:
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true);
 
     fetch("https://hp-api.onrender.com/api/characters/house/" + filters.house)
       .then((res) => res.json())
       .then((responseData) => {
         const allCleanCharacters = responseData.map((eachCharacter) => ({
+          // Nos traemos solo los datos que vamos a utlizar de la API y los reestructuramos
           id: eachCharacter.id,
           name: eachCharacter.name,
           gender: eachCharacter.gender,
@@ -47,37 +49,31 @@ function App() {
           actor: eachCharacter.actor,
         }));
 
-        setCharacters(allCleanCharacters);
+        setCharacters(allCleanCharacters); // Ahora characters está limpio
         setIsLoading(false); // Ocultamos el loader tras cargar la página
       });
   }, [filters.house]);
 
-  if (isLoading === true) {
-    // Mostramos el loader y no mostramos el resto de la app aún.
-    // React hace return aquí y no pasa de esta parte.
-    return (
-      <div className="loader-container">
-        <div className="loader"></div>
-        <p className="loader-text">Cargando personajes…</p>
-      </div>
-    );
-  }
-
+  // Función para encontrar un personaje por ID
+  // Se usa en la página de detalle
   const findCharacter = (characterId) => {
+    // Si aún no se ha cargado la API devolvemos undefined (CharacterDetail mostrará loader)
     if (characters.length === 0) {
       return undefined;
     }
+
+    // Buscamos el personaje con ese ID
     const character = characters.find(
       (oneCharacter) => oneCharacter.id === characterId
     );
     return character;
   };
 
-  // Código con variables para pintar en la página
+  // FILTERED CHARACTERS: Aquí aplicamos TODOS los filtros de la usuaria
 
   const filteredCharacters = characters
     .filter((eachCharacter) => {
-      // Filtro para nombre (personaje o actor)
+      // 1) Filtro por texto (personaje o actor)
       const searchText = filters.name.toLocaleLowerCase();
       return (
         eachCharacter.name.toLocaleLowerCase().includes(searchText) ||
@@ -86,16 +82,17 @@ function App() {
     })
 
     .filter((eachCharacter) => {
+      // 2) Filtro por checkbox "Solo personajes con foto"
       if (filters.image === true) {
-        return eachCharacter.image;
+        return eachCharacter.image; // si no tiene foto no pasa
       }
-      return true;
+      return true; // si el checkbox está apagado: mostrar todo
     })
 
     .filter((eachCharacter) => {
-      // Filtro para vivos
+      // 3) Filtro por estado (vivo/muerto)
       if (filters.alive === "") {
-        return true; // Si está vacío, mostrar todos
+        return true; // Si está vacío: mostrar todos
       }
       if (filters.alive === "alive") {
         return eachCharacter.status === true;
@@ -105,9 +102,9 @@ function App() {
       }
     })
     .sort((firstCharacter, secondCharacter) =>
+      // 4) Ordenar alfabeticamente
       firstCharacter.name.localeCompare(secondCharacter.name)
     );
-  console.log("Filtrados:", filteredCharacters.length, filteredCharacters);
 
   return (
     <div>
@@ -118,14 +115,16 @@ function App() {
             path="/"
             element={
               <>
-                {" "}
                 <Filters
                   filters={filters}
                   setFilters={setFilters}
                   hogwartsHouses={hogwartsHouses}
                   allStates={allStates}
                 />
-                <CharacterList filteredCharacters={filteredCharacters} />
+                <CharacterList
+                  filteredCharacters={filteredCharacters}
+                  isLoading={isLoading}
+                />
               </>
             }
           />
