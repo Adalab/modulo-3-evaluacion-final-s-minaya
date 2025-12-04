@@ -4,7 +4,7 @@ import "../styles/App.scss";
 import Filters from "./Filters/Filters";
 import CharacterList from "./Characters/CharacterList";
 import Header from "./Layout/Header";
-import CharacterDetail from "./Characters/CharaterDetail";
+import CharacterDetail from "./Characters/CharacterDetail";
 
 function App() {
   // DATOS DE LA APP:
