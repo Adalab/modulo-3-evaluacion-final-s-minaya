@@ -107,7 +107,7 @@ function CharacterDetail({ findCharacter }) {
           <ul className="detail__info">
             {/* Estado */}
             <li>
-              <strong>Estado:</strong>{" "}
+              <strong>Estado: </strong>{" "}
               {foundCharacter.status ? "Vivo" : "Muerto"}
               <img
                 className="detail__icon"
@@ -118,7 +118,7 @@ function CharacterDetail({ findCharacter }) {
 
             {/* Especie */}
             <li>
-              <strong>Especie:</strong> {foundCharacter.specie}
+              <strong>Especie: </strong> {foundCharacter.specie}
               <img
                 className="detail__icon"
                 src={speciesIcons[specieKey]}
@@ -128,7 +128,7 @@ function CharacterDetail({ findCharacter }) {
 
             {/* Género */}
             <li>
-              <strong>Género:</strong> {foundCharacter.gender}
+              <strong>Género: </strong> {foundCharacter.gender}
               <img
                 className="detail__icon"
                 src={genderIcons[foundCharacter.gender]}
@@ -138,7 +138,7 @@ function CharacterDetail({ findCharacter }) {
 
             {/* Casa */}
             <li>
-              <strong>Casa:</strong> {foundCharacter.house}
+              <strong>Casa: </strong> {foundCharacter.house}
               <img
                 className="detail__icon"
                 src={houseIcons[houseKey]}
